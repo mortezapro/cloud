@@ -14,15 +14,15 @@ class RegisteredUserController extends Controller
 
     public function sendRegisterEmail(Request $request)
     {
-        $email = $request->input("email");
-        $user = User::where("email",$email)->first();
+        $mobile = $request->input("mobile");
+        $user = User::where("mobile",$mobile)->first();
         if($user){
             return redirect()->route("register")->with("user-exist",true);
         }
         $user = User::create([
-           "email" => $email
+           "mobile" => $mobile
         ]);
-        // send email link
+        // send sms code
     }
 
     public function verifyRegister(Request $request)

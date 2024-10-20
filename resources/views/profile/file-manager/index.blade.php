@@ -124,7 +124,29 @@
                             </div>
                             <div class="row" id="folderlist-data">
                                 <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card bg-light shadow-none" id="folder-1">
+                                    <div class="card border-1 shadow-none" id="go-back">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-1">
+                                                <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <div class="mb-2">
+                                                    <i class="ri-arrow-go-back-line align-bottom text-warning display-5"></i>
+                                                </div>
+                                                <h6 class="fs-15 folder-name">بازگشت</h6>
+                                            </div>
+                                            <div class="hstack mt-4 text-muted">
+                                                <span class="me-auto"><b>&nbsp; </b> </span>
+                                                <span><b>&nbsp; </b>  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-3 col-6 folder-card">
+                                    <div class="card border-1 shadow-none directory" data-name="پروژه-ها" id="folder-1">
                                         <div class="card-body">
                                             <div class="d-flex mb-1">
                                                 <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
@@ -156,14 +178,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--end col-->
                                 <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card bg-light shadow-none" id="folder-2">
+                                    <div class="card border-1 shadow-none directory" data-name="اسناد" id="folder-2">
                                         <div class="card-body">
                                             <div class="d-flex mb-1">
                                                 <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_2">
-                                                    <label class="form-check-label" for="folderlistCheckbox_2"></label>
+                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1" checked>
+                                                    <label class="form-check-label" for="folderlistCheckbox_1"></label>
                                                 </div>
                                                 <div class="dropdown">
                                                     <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -181,85 +202,16 @@
                                                 <div class="mb-2">
                                                     <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
                                                 </div>
-                                                <h6 class="fs-15 folder-name">Documents</h6>
+                                                <h6 class="fs-15 folder-name">اسناد</h6>
                                             </div>
                                             <div class="hstack mt-4 text-muted">
-                                                <span class="me-auto"><b>2348</b> Files</span>
-                                                <span><b>27.01</b>GB</span>
+                                                <span class="me-auto"><b>345</b> فایل</span>
+                                                <span><b>4.10</b> مگابایت</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!--end col-->
-                                <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card bg-light shadow-none" id="folder-3">
-                                        <div class="card-body">
-                                            <div class="d-flex mb-1">
-                                                <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_3">
-                                                    <label class="form-check-label" for="folderlistCheckbox_3"></label>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-fill fs-16 align-bottom"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>
-                                                        <li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
-                                                        <li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-center">
-                                                <div class="mb-2">
-                                                    <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
-                                                </div>
-                                                <h6 class="fs-15 folder-name">Media</h6>
-                                            </div>
-                                            <div class="hstack mt-4 text-muted">
-                                                <span class="me-auto"><b>12480</b> Files</span>
-                                                <span><b>20.87</b>GB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
-                                <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card bg-light shadow-none" id="folder-4">
-                                        <div class="card-body">
-                                            <div class="d-flex mb-1">
-                                                <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_4" checked>
-                                                    <label class="form-check-label" for="folderlistCheckbox_4"></label>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-fill fs-16 align-bottom"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>
-                                                        <li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
-                                                        <li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <div class="mb-2">
-                                                    <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
-                                                </div>
-                                                <h6 class="fs-15 folder-name">Velzon v1.7.0</h6>
-                                            </div>
-                                            <div class="hstack mt-4 text-muted">
-                                                <span class="me-auto"><b>180</b> Files</span>
-                                                <span><b>478.65</b>MB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
                             </div>
-                            <!--end row-->
                         </div>
                         <div>
                             <div class="d-flex align-items-center mb-3">
@@ -584,4 +536,32 @@
     </div>
 @endsection
 @section("script")
+    <script>
+        {{--let current_dir = "{{ \Illuminate\Support\Facades\Auth::user()?->base_directory_name }}";--}}
+        let base_dir = "morteza";
+        let current_dir = "morteza";
+        let selectedDirectory="morteza";
+        const folders = document.getElementsByClassName("directory");
+        for (let i = 0; i < folders.length; i++) {
+            folders[i].onclick = event => {
+                if (event.detail === 2) {
+                    const folderName = event.currentTarget.getAttribute('data-name');
+                    current_dir += `/${folderName}`;
+                    goToDir(current_dir)
+                    // updateDirectoryDisplay();
+                }
+            };
+        }
+        function goToDir(dir){
+            $.ajax({
+                type: "POST",
+                url: "{{ route("profile.directory-inside") }}",
+                data: {"dir":dir},
+                cache: false,
+                success: function(data){
+                    console.log("go to "+dir+": "+data);
+                }
+            });
+        }
+    </script>
 @endsection

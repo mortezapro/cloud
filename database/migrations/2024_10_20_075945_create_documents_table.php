@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('directories', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string("name");
+            $table->string("slug")->unique();
+            $table->string("mime_type");
+            $table->string("extension");
+            $table->string("size");
+            $table->boolean("is_shared")->default(0);
+            $table->unsignedInteger("downloads_count")->default(0);
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("directory_id")->nullable();
             $table->timestamps();
@@ -22,6 +28,7 @@ return new class extends Migration
             $table->foreign('directory_id')->references('id')->on('directories')->onDelete('cascade');
 
         });
+
     }
 
     /**
@@ -29,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('directories');
+        Schema::dropIfExists('documents');
     }
 };

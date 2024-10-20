@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -33,12 +34,13 @@ Route::get('/dashboard', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('send-register-email', [RegisteredUserController::class, 'sendRegisterEmail'])->name('send.register.email');
-    Route::post('verify-register/{signed_url}', [RegisteredUserController::class, 'verifyRegister'])->name('verify.register');
+    Route::post('send-register-sms', [RegisteredUserController::class, 'sendRegisterEmail'])->name('send.register.email');
+    Route::post('verify-register', [RegisteredUserController::class, 'verifyRegister'])->name('verify.register');
 });
 
 
 Route::prefix('profile')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/file-manager', [DirectoryController::class, 'fileManager'])->name('profile.file-manager');
+    Route::get('/getDirectoryInside', [DirectoryController::class, 'getDirectoryInside'])->name('profile.directory-inside');
 });

@@ -41,4 +41,10 @@ class DirectoryController extends Controller
         $directories = $this->directoryService->get(["user_id" => $userId],["*"]);
         return view("profile.file-manager.index",compact("directories"));
     }
+
+    public function getDirectoryInside(Request $request)
+    {
+        // dd($request->all())
+        return ["Directory1","Directory2","Directory3"];
+    }
 }
