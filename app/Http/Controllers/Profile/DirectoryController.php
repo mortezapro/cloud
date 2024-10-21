@@ -38,13 +38,21 @@ class DirectoryController extends Controller
     public function fileManager()
     {
         $userId = Auth::guard("user")->id();
-        $directories = $this->directoryService->get(["user_id" => $userId],["*"]);
+        $directories = $this->directoryService->getParentDirectories();
         return view("profile.file-manager.index",compact("directories"));
     }
 
     public function getDirectoryInside(Request $request)
     {
-        // dd($request->all())
-        return ["Directory1","Directory2","Directory3"];
+        $directoryId = $request->input("directory_id");
+        return $this->directoryService->getDirectoryInside($directoryId);
+    }
+
+    public function save(Request $request)
+    {
+        $directoryData = $request->only(["name","directory_id"]);
+        $directoryData["user_id"] = Auth::guard("user")->id();
+        $this->directoryService->store($directoryData);
+        return true;
     }
 }

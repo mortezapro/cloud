@@ -2,6 +2,7 @@
 @section("head")
     <title>داشبورد | وینکس کلاد</title>
     <meta content="داشبورد | وینکس کلاد" name="description" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section("content")
     <div class="page-content">
@@ -40,19 +41,16 @@
                                     <div class="collapse show" id="collapseExample">
                                         <ul class="sub-menu list-unstyled">
                                             <li>
-                                                <a href="#!">دارایی</a>
+                                                <a href="#!">فایل‌های اخیر</a>
                                             </li>
                                             <li>
-                                                <a href="#!">مارکتینگ</a>
+                                                <a href="#!">اشتراک‌ گذاشته ‌شده‌ها</a>
                                             </li>
                                             <li>
-                                                <a href="#!">شخصی</a>
+                                                <a href="#!">لیست مورد علاقه</a>
                                             </li>
                                             <li>
-                                                <a href="#!">پروژه</a>
-                                            </li>
-                                            <li>
-                                                <a href="#!">طرح</a>
+                                                <a href="#!">سطل زباله</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -61,12 +59,12 @@
                                     <a href="#!"><i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">اسناد</span></a>
                                 </li>
                                 <li>
-                                    <a href="#!"><i class="ri-image-2-line align-bottom me-2"></i> <span class="file-list-link">رسانه</span></a>
+                                    <a href="#!"><i class="ri-share-line align-bottom me-2"></i> <span class="file-list-link">اشتراک‌گذاری‌ها</span></a>
                                 <li>
                                     <a href="#!"><i class="ri-history-line align-bottom me-2"></i> <span class="file-list-link">تاریخچه</span></a>
                                 </li>
                                 <li>
-                                    <a href="#!"><i class="ri-star-line align-bottom me-2"></i> <span class="file-list-link">مهم</span></a>
+                                    <a href="#!"><i class="ri-star-line align-bottom me-2"></i> <span class="file-list-link">لیست مورد علاقه</span></a>
                                 </li>
                                 <li>
                                     <a href="#!"><i class="ri-delete-bin-line align-bottom me-2"></i> <span class="file-list-link">حذف شده‌ها</span></a>
@@ -76,7 +74,7 @@
 
 
                         <div class="mt-auto">
-                            <h6 class="fs-12 text-muted text-uppercase mb-3">وظعیت حافظه</h6>
+                            <h6 class="fs-12 text-muted text-uppercase mb-3">وضعیت حافظه</h6>
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
                                     <i class="ri-database-2-line fs-17"></i>
@@ -109,21 +107,14 @@
                                 </div>
                                 <div class="col-auto">
                                     <div class="d-flex gap-2 align-items-start">
-                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="file-type">
-                                            <option value="">نوع فایل</option>
-                                            <option value="All" selected>همه</option>
-                                            <option value="Video">ویدئو</option>
-                                            <option value="Images">تصویر</option>
-                                            <option value="Music">موزیک</option>
-                                            <option value="Documents">سند</option>
-                                        </select>
-
                                         <button class="btn btn-primary w-sm create-folder-modal flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createFolderModal"><i class="ri-add-line align-bottom me-1"></i> ایجاد پوشه</button>
+                                        <button class="btn btn-success createFile-modal" data-bs-toggle="modal" data-bs-target="#createFileModal"><i class="ri-upload-2-line align-bottom me-1"></i> بارگذاری پرونده</button>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row" id="folderlist-data">
-                                <div class="col-xxl-3 col-6 folder-card">
+                                <div class="col-xxl-2 col-6 folder-card" style="display: none">
                                     <div class="card border-1 shadow-none" id="go-back">
                                         <div class="card-body">
                                             <div class="d-flex mb-1">
@@ -145,120 +136,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card border-1 shadow-none directory" data-name="پروژه-ها" id="folder-1">
-                                        <div class="card-body">
-                                            <div class="d-flex mb-1">
-                                                <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1" checked>
-                                                    <label class="form-check-label" for="folderlistCheckbox_1"></label>
+                                @forelse($directories as $directory)
+                                    <div class="col-xxl-2 col-6 folder-card">
+                                        <div class="card border-1 shadow-none directory" data-name="{{ $directory->name }}" data-id="{{ $directory->id }}" id="folder-{{ $loop->iteration }}">
+                                            <div class="card-body">
+                                                <div class="d-flex mb-1">
+                                                    <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
+                                                        <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1">
+                                                        <label class="form-check-label" for="folderlistCheckbox_1"></label>
+                                                    </div>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="ri-more-2-fill fs-16 align-bottom"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>
+                                                            <li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
+                                                            <li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-fill fs-16 align-bottom"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>
-                                                        <li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
-                                                        <li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
 
-                                            <div class="text-center">
-                                                <div class="mb-2">
-                                                    <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
+                                                <div class="text-center">
+                                                    <div class="mb-2">
+                                                        <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
+                                                    </div>
+                                                    <h6 class="fs-15 folder-name">{{ $directory->name }}</h6>
                                                 </div>
-                                                <h6 class="fs-15 folder-name">پروژه</h6>
-                                            </div>
-                                            <div class="hstack mt-4 text-muted">
-                                                <span class="me-auto"><b>345</b> فایل</span>
-                                                <span><b>4.10</b> مگابایت</span>
+                                                <div class="hstack mt-4 text-muted">
+                                                    <span class="me-auto"><b>{{ $directory->directories_count }}</b> پوشه</span>
+                                                    {{--<span><b>4.10</b> مگابایت</span>--}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xxl-3 col-6 folder-card">
-                                    <div class="card border-1 shadow-none directory" data-name="اسناد" id="folder-2">
-                                        <div class="card-body">
-                                            <div class="d-flex mb-1">
-                                                <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                                    <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1" checked>
-                                                    <label class="form-check-label" for="folderlistCheckbox_1"></label>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-fill fs-16 align-bottom"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>
-                                                        <li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
-                                                        <li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-center">
-                                                <div class="mb-2">
-                                                    <i class="ri-folder-2-fill align-bottom text-warning display-5"></i>
-                                                </div>
-                                                <h6 class="fs-15 folder-name">اسناد</h6>
-                                            </div>
-                                            <div class="hstack mt-4 text-muted">
-                                                <span class="me-auto"><b>345</b> فایل</span>
-                                                <span><b>4.10</b> مگابایت</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center mb-3">
-                                <h5 class="flex-grow-1 fs-17 mb-0" id="filetype-title">فایل‌های اخیر</h5>
-                                <div class="flex-shrink-0">
-                                    <button class="btn btn-success createFile-modal" data-bs-toggle="modal" data-bs-target="#createFileModal"><i class="ri-add-line align-bottom me-1"></i> ایجاد پرونده</button>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table align-middle table-nowrap mb-0">
-                                    <thead class="table-active">
-                                    <tr>
-                                        <th scope="col">نام</th>
-                                        <th scope="col">File Item</th>
-                                        <th scope="col">جم فایل</th>
-                                        <th scope="col">تاریخ به‌روز‌رسانی</th>
-                                        <th scope="col" class="text-center">عملیات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="file-list"></tbody>
-                                </table>
-                            </div>
-                            <ul id="pagination" class="pagination pagination-lg"></ul>
-                            <div class="align-items-center mt-2 row g-3 text-center text-sm-start">
-                                <div class="col-sm">
-                                    <div class="text-muted">Showing<span class="fw-semibold">4</span> of <span class="fw-semibold">125</span> Results
-                                    </div>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <ul class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
-                                        <li class="page-item disabled">
-                                            <a href="#" class="page-link">←</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="#" class="page-link">1</a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a href="#" class="page-link">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="#" class="page-link">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="#" class="page-link">→</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                @empty
+                                    <h6 class="text-center">پرونده‌ای برای نمایش وجود ندارد</h6>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -450,12 +364,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFolderBtn-close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form autocomplete="off" class="needs-validation createfolder-form" id="createfolder-form" novalidate>
+                    <form action="{{ route("profile.directory.store") }}" method="post" class="needs-validation createfolder-form" id="createDirectoryForm">
+                        @csrf
                         <div class="mb-4">
                             <label for="foldername-input" class="form-label">نام پوشه</label>
-                            <input type="text" class="form-control" id="foldername-input" required placeholder="نام پوشه را وارد کنید.">
-                            <div class="invalid-feedback">لطفا نام پوشه رائارد کنید</div>
-                            <input type="hidden" class="form-control" id="folderid-input" value="" placeholder="Enter folder name">
+                            <input type="text" class="form-control" id="directoryNameInput" required placeholder="نام پوشه را وارد کنید.">
                         </div>
                         <div class="hstack gap-2 justify-content-end">
                             <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i class="ri-close-line align-bottom"></i> بستن</button>
@@ -470,7 +383,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0">
                 <div class="modal-header p-3 bg-success-subtle">
-                    <h5 class="modal-title fw-bold" id="createFileModalLabel">ایجاد پرونده</h5>
+                    <h5 class="modal-title fw-bold" id="createFileModalLabel">بارگذاری پرونده</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFileBtn-close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -483,7 +396,7 @@
                         </div>
                         <div class="hstack gap-2 justify-content-end">
                             <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal"><i class="ri-close-line align-bottom"></i> بستن</button>
-                            <button type="submit" class="btn btn-primary" id="addNewFile">ایجاد</button>
+                            <button type="submit" class="btn btn-primary" id="addNewFile">بارگذاری</button>
                         </div>
                     </form>
                 </div>
@@ -536,32 +449,94 @@
     </div>
 @endsection
 @section("script")
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-        {{--let current_dir = "{{ \Illuminate\Support\Facades\Auth::user()?->base_directory_name }}";--}}
-        let base_dir = "morteza";
-        let current_dir = "morteza";
-        let selectedDirectory="morteza";
+        let current_dir = "";
         const folders = document.getElementsByClassName("directory");
         for (let i = 0; i < folders.length; i++) {
             folders[i].onclick = event => {
                 if (event.detail === 2) {
-                    const folderName = event.currentTarget.getAttribute('data-name');
-                    current_dir += `/${folderName}`;
-                    goToDir(current_dir)
+                    let directoryName = event.currentTarget.getAttribute('data-name');
+                    let directory_id = event.currentTarget.getAttribute('data-id');
+                    if(!current_dir){
+                        current_dir = directoryName;
+                    } else {
+                        current_dir += `/${directoryName}`;
+                    }
+alert(current_dir)
+                    goToDir(directory_id)
                     // updateDirectoryDisplay();
                 }
             };
         }
-        function goToDir(dir){
+        function goToDir(directory_id){
             $.ajax({
                 type: "POST",
                 url: "{{ route("profile.directory-inside") }}",
-                data: {"dir":dir},
+                data: {"directory_id":directory_id},
                 cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function(data){
-                    console.log("go to "+dir+": "+data);
+                    if(data.length == 0){
+                        // directory is empty (directory)
+                        // $("#folderlist-data").html('<h6 class="text-center">این پوشه خالی است</h6>');
+                    }else {
+                        // directory has subdirectory
+                    }
                 }
             });
         }
+
+        $("#createDirectoryForm").on("submit",function (e){
+            e.preventDefault();
+            let directoryNameInput = $("#directoryNameInput").val()
+            $.ajax({
+                type: "POST",
+                url: "{{ route("profile.directory.store") }}",
+                data: {
+                    "name":directoryNameInput,
+                    "directory_id": current_dir
+                },
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data){
+                    const newDirectoryHtml = '' +
+                        '<div class="col-xxl-2 col-6 folder-card">'+
+                            '<div class="card border-1 shadow-none directory" data-name="'+directoryNameInput+'" data-id="" id="folder">'+
+                                '<div class="card-body">'+
+                                    '<div class="d-flex mb-1">'+
+                                        '<div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">'+
+                                            '<input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1">'+
+                                            '<label class="form-check-label" for="folderlistCheckbox_1"></label>'+
+                                        '</div>'+
+                                        '<div class="dropdown">'+
+                                            '<button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">'+
+                                                '<i class="ri-more-2-fill fs-16 align-bottom"></i>'+
+                                            '</button>'+
+                                            '<ul class="dropdown-menu dropdown-menu-end">'+
+                                                '<li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>'+
+                                                '<li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>'+
+                                                '<li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>'+
+                                            '</ul>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="text-center">'+
+                                    '<div class="mb-2">'+
+                                        '<i class="ri-folder-2-fill align-bottom text-warning display-5"></i>'+
+                                    '</div>'+
+                                    '<h6 class="fs-15 folder-name">'+directoryNameInput+'</h6>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'
+                    // $("#folderlist-data").append(newDirectoryHtml);
+                    $( "#here" ).load(window.location.href + " #here" );
+                }
+            });
+        });
     </script>
 @endsection

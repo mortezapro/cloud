@@ -23,7 +23,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
                                         <div>
@@ -32,11 +31,17 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <form class="needs-validation" method="post" action="{{ route("send.register.email") }}">
+                                            <form class="needs-validation" method="post" action="{{ route("verify.authenticate") }}">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="email" class="form-label">ایمیل <span class="text-danger">*</span></label>
-                                                    <input type="email" name="email" class="form-control ltr" id="email" placeholder="ایمیل خود را وارد کنید" required>
+
+                                                    <span class="badge bg-success p-2" style="font-size: 1em">
+                                                        کد تایید برای شما ارسال شد. لطفا در کادر زیر وارد کنید
+                                                    </span>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="verification-code" class="form-label">کد تایید <span class="text-danger">*</span></label>
+                                                    <input type="text" name="verification-code" class="form-control ltr" id="verification-code" placeholder="کد تایید را وارد کنید" required>
                                                 </div>
 
                                                 <div class="mb-4">
@@ -44,18 +49,7 @@
                                                 </div>
 
                                                 <div class="mt-4">
-                                                    <button class="btn btn-primary w-100" type="submit">عضویت</button>
-                                                </div>
-
-                                                <div class="mt-4 text-center">
-                                                    <div class="signin-other-title">
-                                                        <h5 class="fs-13 mb-4 title text-muted">عضویت با</h5>
-                                                    </div>
-
-                                                    <div class="btn-auth-socials">
-                                                        <button type="button" class="btn btn-google btn-icon waves-effect waves-light"><i class="ri-google-fill ms-1 fs-16"></i> گوگل</button>
-                                                        <button type="button" class="btn btn-github btn-icon waves-effect waves-light"><i class="ri-github-fill ms-1 fs-16"></i>گیتهاب</button>
-                                                    </div>
+                                                    <button class="btn btn-primary w-100" type="submit">ادامه</button>
                                                 </div>
                                             </form>
                                         </div>

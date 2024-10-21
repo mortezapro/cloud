@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('directories', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string("name");
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("directory_id")->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('directory_id')->references('id')->on('directories')->onDelete('cascade');
-
+            $table->unique(['name', 'user_id']);
         });
     }
 

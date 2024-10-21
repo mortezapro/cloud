@@ -16,5 +16,18 @@ class DirectoryService extends BaseService implements DirectoryServiceInterface{
     {
         $baseDirectoryName = Str::random(4).substr(time(),6,4).Auth::guard("user")->id();
         File::makeDirectory(storage_path('app/private/').$baseDirectoryName, 0775);
+        return $baseDirectoryName;
+    }
+
+    public function getParentDirectories()
+    {
+        return $this->model->where("user_id",Auth::guard("user")->id())
+            ->whereNull("directory_id")->withCount("directories")->latest()->take(20)->get();
+    }
+
+    public function getDirectoryInside(int $directoryId)
+    {
+        return $this->model->where("directory_id",$directoryId)->where("user_id",Auth::guard("user")->id())
+            ->withCount("directories")->latest()->take(20)->get();
     }
 }

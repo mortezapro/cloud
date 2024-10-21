@@ -32,15 +32,17 @@ Route::get('/dashboard', function () {
 
 //require __DIR__.'/auth.php';
 
-Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('send-register-sms', [RegisteredUserController::class, 'sendRegisterEmail'])->name('send.register.email');
-    Route::post('verify-register', [RegisteredUserController::class, 'verifyRegister'])->name('verify.register');
+Route::middleware('redirect-if-authenticated')->group(function () {
+    Route::get('login', [RegisteredUserController::class, 'loginFrom'])->name('login');
+    Route::post('send-auth-sms', [RegisteredUserController::class, 'sendAuthenticateCode'])->name('send.Authenticate.code');
+    Route::post('verify-authenticate', [RegisteredUserController::class, 'verifyAuthenticate'])->name('verify.authenticate');
 });
 
 
-Route::prefix('profile')->group(function () {
+Route::middleware('profile-auth')->prefix('profile')->group(function () {
+    Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/file-manager', [DirectoryController::class, 'fileManager'])->name('profile.file-manager');
-    Route::get('/getDirectoryInside', [DirectoryController::class, 'getDirectoryInside'])->name('profile.directory-inside');
+    Route::post('/getDirectoryInside', [DirectoryController::class, 'getDirectoryInside'])->name('profile.directory-inside');
+    Route::post('/makeDirectory', [DirectoryController::class, 'save'])->name('profile.directory.store');
 });

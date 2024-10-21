@@ -15,7 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-
+        $middleware->appendToGroup('redirect-if-authenticated', [
+            \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ]);
+        $middleware->appendToGroup('profile-auth', [
+            \App\Http\Middleware\ProfileAuthenticate::class,
+        ]);
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {

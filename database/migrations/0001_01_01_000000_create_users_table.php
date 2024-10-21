@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('mobile')->unique();
             $table->string('base_directory_name')->nullable();
+            $table->tinyInteger('is_active')->default(0)->comment("If this value equals 1, it means the user has successfully logged in at least once.");
             $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
