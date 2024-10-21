@@ -5,7 +5,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section("content")
-    <div class="page-content">
+    {{--<div class="page-content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -165,7 +165,7 @@
                                                 </div>
                                                 <div class="hstack mt-4 text-muted">
                                                     <span class="me-auto"><b>{{ $directory->directories_count }}</b> پوشه</span>
-                                                    {{--<span><b>4.10</b> مگابایت</span>--}}
+                                                    --}}{{--<span><b>4.10</b> مگابایت</span>--}}{{--
                                                 </div>
                                             </div>
                                         </div>
@@ -446,97 +446,19 @@
                 </div>
             </div>
         </div>
+    </div>--}}
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div id="file-manager-root"></div>
+                </div>
+            </div>
+        </div>
     </div>
+
 @endsection
 @section("script")
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        let current_dir = "";
-        const folders = document.getElementsByClassName("directory");
-        for (let i = 0; i < folders.length; i++) {
-            folders[i].onclick = event => {
-                if (event.detail === 2) {
-                    let directoryName = event.currentTarget.getAttribute('data-name');
-                    let directory_id = event.currentTarget.getAttribute('data-id');
-                    if(!current_dir){
-                        current_dir = directoryName;
-                    } else {
-                        current_dir += `/${directoryName}`;
-                    }
-alert(current_dir)
-                    goToDir(directory_id)
-                    // updateDirectoryDisplay();
-                }
-            };
-        }
-        function goToDir(directory_id){
-            $.ajax({
-                type: "POST",
-                url: "{{ route("profile.directory-inside") }}",
-                data: {"directory_id":directory_id},
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data){
-                    if(data.length == 0){
-                        // directory is empty (directory)
-                        // $("#folderlist-data").html('<h6 class="text-center">این پوشه خالی است</h6>');
-                    }else {
-                        // directory has subdirectory
-                    }
-                }
-            });
-        }
+    @vite('resources/js/app.jsx')
 
-        $("#createDirectoryForm").on("submit",function (e){
-            e.preventDefault();
-            let directoryNameInput = $("#directoryNameInput").val()
-            $.ajax({
-                type: "POST",
-                url: "{{ route("profile.directory.store") }}",
-                data: {
-                    "name":directoryNameInput,
-                    "directory_id": current_dir
-                },
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data){
-                    const newDirectoryHtml = '' +
-                        '<div class="col-xxl-2 col-6 folder-card">'+
-                            '<div class="card border-1 shadow-none directory" data-name="'+directoryNameInput+'" data-id="" id="folder">'+
-                                '<div class="card-body">'+
-                                    '<div class="d-flex mb-1">'+
-                                        '<div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">'+
-                                            '<input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1">'+
-                                            '<label class="form-check-label" for="folderlistCheckbox_1"></label>'+
-                                        '</div>'+
-                                        '<div class="dropdown">'+
-                                            '<button class="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">'+
-                                                '<i class="ri-more-2-fill fs-16 align-bottom"></i>'+
-                                            '</button>'+
-                                            '<ul class="dropdown-menu dropdown-menu-end">'+
-                                                '<li><a class="dropdown-item view-item-btn" href="javascript:void(0);">باز کردن</a></li>'+
-                                                '<li><a class="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>'+
-                                                '<li><a class="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>'+
-                                            '</ul>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="text-center">'+
-                                    '<div class="mb-2">'+
-                                        '<i class="ri-folder-2-fill align-bottom text-warning display-5"></i>'+
-                                    '</div>'+
-                                    '<h6 class="fs-15 folder-name">'+directoryNameInput+'</h6>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'
-                    // $("#folderlist-data").append(newDirectoryHtml);
-                    $( "#here" ).load(window.location.href + " #here" );
-                }
-            });
-        });
-    </script>
 @endsection

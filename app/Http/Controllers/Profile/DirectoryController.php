@@ -19,9 +19,8 @@ class DirectoryController extends Controller
     }
     public function index()
     {
-//        $userId = Auth::guard("user")->id();
-//        $directories = $this->directoryService->get(["user_id" => $userId]);
-//        return view("profile.directory.index",compact("directories"));
+        $userId = Auth::guard("user")->id();
+        return $this->directoryService->getParentDirectories();
     }
     public function store(Request $request)
     {
