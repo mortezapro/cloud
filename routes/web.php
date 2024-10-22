@@ -44,10 +44,11 @@ Route::middleware('profile-auth')->prefix('profile')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('/file-manager', [DirectoryController::class, 'fileManager'])->name('profile.file-manager');
     Route::post('/getDirectoryInside', [DirectoryController::class, 'getDirectoryInside'])->name('profile.directory-inside');
-    Route::post('/makeDirectory', [DirectoryController::class, 'save'])->name('profile.directory.store');
 
 });
 Route::prefix('v1')->group(function () {
     Route::get('/directories', [DirectoryController::class, 'index'])->name('directory.index');
+    Route::post('/rename-directory', [DirectoryController::class, 'renameDirectory'])->name('directory.rename');
+    Route::post('/makeDirectory', [DirectoryController::class, 'save'])->name('profile.directory.store');
 
 });

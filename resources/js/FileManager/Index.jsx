@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import Directory from "@/Components/Directory.jsx";
+import RenameDirectoryModal from "@/FileManager/RenameDirectoryModal.jsx";
 
 function FileManager() {
     const [directories, setDirectories] = useState(null);
+    const [renameValue, setRenameValue] = useState('');
+    const [selectedDirectoryId, setSelectedDirectoryId] = useState(null);
+    const [selectedDirectory, setSelectedDirectory] = useState(null);
+    const [showRenameModal, setShowRenameModal] = useState(false);
 
+    const handleRenameClick = (id) => {
+        setSelectedDirectoryId(id);
+        const directoryToRename = directories.find((directory) => directory.id === id);
+        setRenameValue(directoryToRename ? directoryToRename.name : ''); // Set the current name in the input
+        setShowRenameModal(true);
+    };
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchDirectoryData = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/v1/directories');
                 setDirectories(response.data);
@@ -15,14 +26,41 @@ function FileManager() {
                 console.error('Error fetching data:', error);
             }
         };
-        fetchData();
+        fetchDirectoryData();
     }, []);
 
-    useEffect(() => {
-        if (directories) {
-            console.log('Directories:', directories);
+    const handleRename = (newName) => {
+        // Update the directory name logic here (e.g., API call)
+        if (selectedDirectoryId) {
+            const renameDirectoryRequest = async () => {
+                try {
+                    const DirectoryRenameData = {
+                        "name": newName,
+                        "id" : selectedDirectoryId
+                    };
+                    const response = await axios.post('http://127.0.0.1:8000/v1/rename-directory',DirectoryRenameData);
+                    setShowRenameModal(false);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+            renameDirectoryRequest();
         }
-    }, [directories]);
+        console.log('Directory renamed to:', newName); // Replace with your logic
+        setShowRenameModal(false);
+    };
+
+    const handleMakeDirectory = async (newName) => {
+        try {
+            const DirectoryNameData = {
+                "name": newDirectoryName,
+            };
+            const response = await axios.post('http://127.0.0.1:8000/v1/makeDirectory',DirectoryNameData);
+            setShowRenameModal(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     return (
         <>
@@ -171,24 +209,33 @@ function FileManager() {
                                             </div>
                                         </div>
                                     </div>
-                                    {directories && directories.length > 0 ? (
-                                        directories.map((directory, index) => (
-                                            <Directory key={index}
-                                                       id={directory.id}
-                                                       name={directory.name}
-                                                       index={index}
-                                            />
-                                        ))
-                                    ) : (
-                                        <div>اطلاعاتی برای نمایش وجود ندارد.</div>
-                                    )}
 
+                                        {directories && directories.length > 0 ? (
+                                            directories.map((directory, index) => (
+                                                <div className="col-xxl-2 col-6 folder-card" key={index}>
+                                                    <Directory
+                                                               id={directory.id}
+                                                               name={directory.name}
+                                                               index={index}
+                                                               onRenameClick={handleRenameClick}
+                                                    />
+                                                </div>
+
+                                            ))
+                                        ) : (
+                                            <div>اطلاعاتی برای نمایش وجود ندارد.</div>
+                                        )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <RenameDirectoryModal
+                show={showRenameModal}
+                onRename={handleRename}
+                initialName={renameValue}
+            />
             <div className="modal fade zoomIn" id="createFolderModal" tabIndex="-1">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content border-0">
@@ -199,7 +246,6 @@ function FileManager() {
                         </div>
                         <div className="modal-body">
                             <form method="post" className="needs-validation createfolder-form" id="createDirectoryForm">
-                                @csrf
                                 <div className="mb-4">
                                     <label htmlFor="foldername-input" className="form-label">نام پوشه</label>
                                     <input type="text" className="form-control" id="directoryNameInput" required

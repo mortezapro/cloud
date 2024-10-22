@@ -1,15 +1,16 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 
-function Directory({ id, name, index }){
+function Directory({ id, name, index,onRenameClick }){
+    const handleRenameClick = () => onRenameClick(id);
     return (
-        <div className="col-xxl-2 col-6 folder-card">
+        <>
             <div className="card border-1 shadow-none directory"
                  data-name="dir" data-id={id} id={`folder-${id}`}>
                 <div className="card-body">
                     <div className="d-flex mb-1">
                         <div className="form-check form-check-danger mb-3 fs-15 flex-grow-1">
                             <input className="form-check-input" type="checkbox" value="" id={`folderlistCheckbox_${index}`}/>
-                            <label className="form-check-label" htmlFor={`folderlistCheckbox_${index}`}></label>
+                            <label className="form-check-label" htmlFor={`folderlistCheckbox_${index}`}/>
                         </div>
                         <div className="dropdown">
                             <button className="btn btn-ghost-primary btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -17,7 +18,7 @@ function Directory({ id, name, index }){
                             </button>
                             <ul className="dropdown-menu dropdown-menu-end">
                                 <li><a className="dropdown-item view-item-btn" href="#">باز کردن</a></li>
-                                <li><a className="dropdown-item edit-folder-list" href="#createFolderModal" data-bs-toggle="modal" role="button">تغییر نام</a></li>
+                                <li><a onClick={handleRenameClick} className="dropdown-item edit-folder-list" href="#"  data-bs-toggle="modal" data-bs-target="#renameDirectoryModal" role="button">تغییر نام</a></li>
                                 <li><a className="dropdown-item" href="#removeFolderModal" data-bs-toggle="modal" role="button">حذف</a></li>
                             </ul>
                         </div>
@@ -36,7 +37,7 @@ function Directory({ id, name, index }){
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 export default Directory;

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DirectoryController extends Controller
 {
@@ -52,6 +54,29 @@ class DirectoryController extends Controller
         $directoryData = $request->only(["name","directory_id"]);
         $directoryData["user_id"] = Auth::guard("user")->id();
         $this->directoryService->store($directoryData);
+
+        $baseDirectory = Auth::guard("user")->user()->base_directory_name;
+
+        $directoryPath = storage_path('private/' . $baseDirectory."/".$request->input("name"));
+        if(!File::isDirectory($directoryPath)){
+            File::makeDirectory($directoryPath, 0777, true, true);
+        }
+        return true;
+    }
+
+    public function renameDirectory(Request $request):bool
+    {
+        $directory = $this->directoryService->find([
+            "id" => $request->input("id"),
+            "user_id" => Auth::guard("user")->id()
+        ],["*"]);
+        $baseDirectory = Auth::guard("user")->user()->base_directory_name;
+        $oldDirectoryPath = storage_path('app/private/' . $baseDirectory . '/' . $directory->name);
+        $newDirectoryPath = storage_path('app/private/' . $baseDirectory . '/' . $request->input("name"));
+        rename($oldDirectoryPath, $newDirectoryPath);
+
+        $directory->name = $request->input("name");
+        $directory->save();
         return true;
     }
 }
