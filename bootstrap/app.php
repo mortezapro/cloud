@@ -20,7 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->appendToGroup('profile-auth', [
             \App\Http\Middleware\ProfileAuthenticate::class,
+            \App\Http\Middleware\FileManagerPermission::class,
         ]);
+
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -1,5 +1,6 @@
 <?php
 
+use Alexusmai\LaravelFileManager\Controllers\FileManagerController;
 use App\Http\Controllers\Profile\DirectoryController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\RegisteredUserController;
@@ -52,3 +53,4 @@ Route::prefix('v1')->group(function () {
     Route::post('/makeDirectory', [DirectoryController::class, 'save'])->name('profile.directory.store');
 
 });
+
