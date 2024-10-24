@@ -14,10 +14,8 @@ class FileManagerPermission
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guard("user")->check()) {
-            $userDirectory = storage_path("app/private/"). Auth::guard("user")->user()->base_directory_name;
-
-            Config::set('filesystems.disks.private.root', $userDirectory);
-            //dd(Config::get('filesystems.disks.private.root'));
+            $userDirectory = storage_path("app/private")."/".Auth::guard("user")->user()->base_directory_name;
+            config(['filesystems.disks.private.root' => storage_path("app/private/rxsx60001")]);
         }
         return $next($request);
     }

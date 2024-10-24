@@ -11,7 +11,6 @@ return [
      * Default - DefaultConfigRepository get config from this file
      */
     'configRepository'  => DefaultConfigRepository::class,
-    'dynamicRoot' => true,
     /**
      * ACL rules repository
      *
@@ -82,7 +81,14 @@ return [
      *
      * [] - no restrictions
      */
-    'allowFileTypes'    => [],
+    'allowFileTypes'    => [
+        'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/webp',
+        'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'text/plain', 'application/zip', 'application/x-rar-compressed', 'application/x-7z-compressed',
+        'application/x-tar', 'application/gzip', 'audio/mpeg', 'audio/wav', 'video/mp4', 'video/x-msvideo', 'video/x-matroska',
+    ],
 
     /**
      * Show / Hide system files and folders
@@ -102,7 +108,7 @@ return [
      *
      * default - false(OFF)
      */
-    'acl'               => false,
+    'acl'               => true,
 
     /**
      * Hide files and folders from file-manager if user doesn't have access

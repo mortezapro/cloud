@@ -25,7 +25,7 @@
 
 .fm-tree-branch .bi.bi-dash, .fm-tree-branch .bi.bi-dash-square, .fm-tree-branch .bi.bi-plus-square {
     font-size: .9rem;
-    padding-right: .4rem
+    padding-left: .4rem
 }
 
 .fade-tree-enter-active, .fade-tree-leave-active {

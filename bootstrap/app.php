@@ -14,13 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\FileManagerPermission::class,
         ]);
         $middleware->appendToGroup('redirect-if-authenticated', [
             \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);
         $middleware->appendToGroup('profile-auth', [
             \App\Http\Middleware\ProfileAuthenticate::class,
-            \App\Http\Middleware\FileManagerPermission::class,
+
         ]);
 
         //
